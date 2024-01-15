@@ -40,5 +40,6 @@ class RedactingFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         """obsfucate the value of attr message on record
         """
+        record = super().format(record)
         return filter_datum(self.fields, self.REDACTION,
-                            record.message, self.SEPARATOR)
+                            record, self.SEPARATOR)
