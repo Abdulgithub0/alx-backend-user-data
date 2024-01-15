@@ -25,6 +25,6 @@ def filter_datum(fields: List,
     :return: strings of encrypt data based on redaction supply
     """
     for data in fields:
-        message = re.sub(fr"{data}=[^{separator}]*",
-                         f"{data}={redaction}", message)
+        message = re.sub(r"{}=[^{}]*".format(data, separator),
+                         "{}={}".format(data, redaction), message)
     return message
