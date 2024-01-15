@@ -51,10 +51,10 @@ def get_logger() -> logging.Logger:
     """log user data but obfuscate their PII or personal data
     """
     logger = logging.getLogger("user_data")
-    logger.setLevel(20)
-    logger.propagate = 0
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
     stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(20)
+    stream_handler.setLevel(logging.INFO)
     redacted_format = RedactingFormatter(PII_FIELDS)
     stream_handler.setFormatter(redacted_format)
     logger.addHandler(stream_handler)
