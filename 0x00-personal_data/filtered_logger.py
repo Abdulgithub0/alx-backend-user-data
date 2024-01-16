@@ -63,7 +63,7 @@ def get_logger() -> logging.Logger:
 
 
 def get_db() -> connection.MySQLConnection:
-    """config msql db and return the connection object
+    """config mysql db and return the connection object
     """
     cn = connection.MySQLConnection(user=e.get("PERSONAL_DATA_DB_USERNAME",
                                                "root"),
@@ -73,3 +73,20 @@ def get_db() -> connection.MySQLConnection:
                                                "localhost"),
                                     database=e.get("PERSONAL_DATA_DB_NAME"))
     return cn
+
+
+if __name__ == "__main__":
+    """Obtain a database connection using get_db and retrieve all rows
+       in the users table and display each row under a filtered format
+    """
+    db_conn = get_db()
+    if db_conn and db_conn.is_connected():
+        logger = get_logger()
+        with db_conn.cursor() as cursor:
+            cursor.execute("select * from users;")
+            rows = cursor.fetchall()
+            for row in rows:
+                row = "name={}; email={}; phone={}; ssn={}; password={}; "\
+                      "ip={}; last_login={}; user_agent={};".format(*row)
+                logger.info(row)
+        db_conn.close()
