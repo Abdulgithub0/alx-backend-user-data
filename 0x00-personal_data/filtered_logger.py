@@ -2,12 +2,12 @@
 """Encrypt user data
 """
 
-import bcrypt as b
 import logging
 import re
 from typing import List
 from mysql.connector import connection
 from os import environ as e
+
 PII_FIELDS = ("name", "email", "phone", "password", "ssn")
 
 
