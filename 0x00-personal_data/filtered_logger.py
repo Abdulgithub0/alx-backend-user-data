@@ -6,7 +6,8 @@ import bcrypt as b
 import logging
 import re
 from typing import List
-
+from mysql.connector import connection
+from os import environ as e
 PII_FIELDS = ("name", "email", "phone", "password", "ssn")
 
 
@@ -59,3 +60,16 @@ def get_logger() -> logging.Logger:
     stream_handler.setFormatter(redacted_format)
     logger.addHandler(stream_handler)
     return logger
+
+
+def get_db() -> connection.MySQLConnection:
+    """config msql db and return the connection object
+    """
+    cn = connection.MySQLConnection(user=e.get("PERSONAL_DATA_DB_USERNAME",
+                                               "root"),
+                                    password=e.get("PERSONAL_DATA_DB_PASSWORD",
+                                                   ""),
+                                    host=e.get("PERSONAL_DATA_DB_HOST",
+                                               "localhost"),
+                                    database=e.get("PERSONAL_DATA_DB_NAME"))
+    return cn
