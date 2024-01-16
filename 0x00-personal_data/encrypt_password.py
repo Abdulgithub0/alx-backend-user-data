@@ -10,7 +10,7 @@ def hash_password(password: str) -> bytes:
     return b.hashpw(password.encode("utf-8"), b.gensalt())
 
 
-def is_valid(hashed_password: bytes, password: str) - bool:
+def is_valid(hashed_password: bytes, password: str) -> bool:
     """validate that the provided password matches the hashed password
     """
     return b.checkpw(password.encode("utf-8"), hashed_password)
