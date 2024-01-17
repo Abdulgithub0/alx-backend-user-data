@@ -10,8 +10,13 @@ class Auth:
     """Template for all authentication system used in flask app instance.
     """
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """will """
-        return False
+        """Define which routes don't need authentication"""
+        real = True
+        if path and excluded_paths:
+            if path[-1] != "/":
+                path = path + "/"
+            real = path not in excluded_paths
+        return real
 
     def authorization_header(self, request: TypeVar('request') = None) -> str:
         """ later """
