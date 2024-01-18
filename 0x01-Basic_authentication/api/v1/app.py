@@ -23,7 +23,7 @@ else:
 
 
 @app.before_request
-def filter_allow_request() -> None:
+def filter_request() -> None:
     """apply filtering on all end-user requests
     """
     excluded_path = ['/api/v1/status/',

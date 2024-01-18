@@ -66,3 +66,13 @@ class BasicAuth(Auth):
                         if user.is_valid_password(user_pwd):
                             found_user = user
         return found_user
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """ override the same method in Auth template and
+            serve as frontend caller of other methods in this class
+        """
+        raw_auth = self.authorization_header(request)
+        undecoded_b64 = self.extract_base64_authorization_header(raw_auth)
+        decoded_b64 = self.decode_base64_authorization_header(undecoded_b64)
+        credential = self.extract_user_credentials(decoded_b64)
+        return self.user_object_from_credentials(*credential)

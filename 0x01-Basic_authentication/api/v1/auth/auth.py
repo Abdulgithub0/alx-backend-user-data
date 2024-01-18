@@ -20,8 +20,8 @@ class Auth:
 
     def authorization_header(self, request: TypeVar('request') = None) -> str:
         """validate all requests to secure the API"""
-        valid = request.headers.get("Authorization") if request else None
-        return valid
+        auth_value = request.headers.get("Authorization") if request else None
+        return auth_value
 
     def current_user(self, request=None) -> TypeVar('User'):
         """later also"""
