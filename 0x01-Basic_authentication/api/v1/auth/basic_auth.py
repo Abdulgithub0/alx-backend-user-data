@@ -25,7 +25,8 @@ class BasicAuth(Auth):
         """ decode a base64 str
         """
         decode = None
-        if (base64_authorization_header and isinstance(base64_authorization_header, str)):
+        if (base64_authorization_header and
+           isinstance(base64_authorization_header, str)):
             try:
                 decode = b64decode(base64_authorization_header).decode("utf-8")
             except Exception:
