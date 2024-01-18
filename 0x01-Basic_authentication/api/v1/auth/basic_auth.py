@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """implement Basic Access Authentication Protocol
 """
-from api.v1.auth import Auth
+from api.v1.auth.auth import Auth
 
 
 class BasicAuth(Auth):
