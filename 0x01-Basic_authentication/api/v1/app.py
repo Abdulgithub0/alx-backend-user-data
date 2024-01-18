@@ -26,9 +26,9 @@ else:
 def filter_request() -> None:
     """apply filtering on all end-user requests
     """
-    excluded_path = ['/api/v1/status/',
-                     '/api/v1/unauthorized/',
-                     '/api/v1/forbidden/']
+    excluded_path = ['/api/v1/status/*',
+                     '/api/v1/unauthorized/*',
+                     '/api/v1/forbidden/*']
     if auth and auth.require_auth(request.path, excluded_path):
         if auth.authorization_header(request) is None:
             abort(401)
