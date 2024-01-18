@@ -40,11 +40,11 @@ class BasicAuth(Auth):
                                  ) -> (str, str):
         """give user details from the decoded base64 string
         """
-        detail = (None, None)
+        user, pwd = (None, None)
         if (decoded_base64_authorization_header and
            isinstance(decoded_base64_authorization_header, str)):
             if ":" in decoded_base64_authorization_header:
-                detail = tuple(decoded_base64_authorization_header.split(":"))
+                user, pwd = decoded_base64_authorization_header.split(":", 1)
         return detail
 
     def user_object_from_credentials(self,
