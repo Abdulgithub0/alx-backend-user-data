@@ -45,7 +45,7 @@ class BasicAuth(Auth):
            isinstance(decoded_base64_authorization_header, str)):
             if ":" in decoded_base64_authorization_header:
                 user, pwd = decoded_base64_authorization_header.split(":", 1)
-        return detail
+        return user, pwd
 
     def user_object_from_credentials(self,
                                      user_email: str,
