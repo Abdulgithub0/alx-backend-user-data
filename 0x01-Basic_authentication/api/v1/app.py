@@ -19,7 +19,9 @@ if auth:
 
 
 @app.before_request
-def filter_allow_request():
+def filter_allow_request() -> None:
+    """apply filtering on all end-user requests
+    """
     excluded_path = ['/api/v1/status/',
                      '/api/v1/unauthorized/',
                      '/api/v1/forbidden/']
