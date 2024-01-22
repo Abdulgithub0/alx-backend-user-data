@@ -4,6 +4,7 @@
 from flask import request
 from typing import TypeVar, List
 from models.user import User
+from os import environ
 
 
 class Auth:
@@ -25,4 +26,12 @@ class Auth:
 
     def current_user(self, request=None) -> TypeVar('User'):
         """later also"""
+        return None
+
+    def session_cookie(self, request=None):
+        """retrieve a cookie value from a request then return
+        """
+        if request:
+            my_session = environ.get("SESSION_NAME")
+            return request.cookies.get(my_session)
         return None
