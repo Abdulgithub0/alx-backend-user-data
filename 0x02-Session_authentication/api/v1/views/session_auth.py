@@ -10,7 +10,7 @@ from os import environ
 
 @app_views.route("/auth_session/login",
                  methods=["POST"], strict_slashes=False)
-def login_by_auth_session():
+def login_users():
     """POST /api/v1/auth_session/login
         JSON body:
             - email
@@ -47,3 +47,20 @@ def login_by_auth_session():
     else:
         return jsonify({"error": "no user found for this email"}), 404
     return resp
+
+
+@app_views.route("/auth_session/logout",
+                 methods=["DELETE"], strict_slashes=False)
+def logout_users():
+    """DELETE /api/v1/auth_session/logout
+        JSON body:
+            - session_id
+        Return:
+            - Empty JSON
+    """
+    from api.v1.app import auth
+
+    has_session = auth.destroy_session(request)
+    if not has_session:
+        abort(404)
+    return jsonify({})
