@@ -10,7 +10,7 @@ class SessionExpAuth(SessionAuth):
     """define various methods for setting expiration of session
     """
 
-    def __init__(self) ->:
+    def __init__(self):
         """ constructor method
         """
         self.session_duration = environ.get("SESSION_DURATION")
