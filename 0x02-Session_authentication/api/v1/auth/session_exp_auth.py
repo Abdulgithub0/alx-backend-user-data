@@ -10,7 +10,7 @@ class SessionExpAuth(SessionAuth):
     """define various methods for setting expiration of session
     """
 
-    def __init__(self):
+    def __init__(self) ->:
         """ constructor method
         """
         duration = environ.get("SESSION_DURATION")
@@ -21,7 +21,7 @@ class SessionExpAuth(SessionAuth):
 
         self.session_duration = duration
 
-    def create_session(self, user_id=None):
+    def create_session(self, user_id=None) -> str:
         """create wrapped around super().create_session method
         """
         session_id = super().create_session(user_id) if user_id else None
@@ -31,7 +31,7 @@ class SessionExpAuth(SessionAuth):
         self.user_id_by_session_id[session_id] = session_dict
         return session_id
 
-    def user_id_for_session_id(self, session_id=None):
+    def user_id_for_session_id(self, session_id=None) -> str:
         """wrapped super().user_id_for_session_id
         """
         session_dict = (self.user_id_by_session_id.get(session_id)
