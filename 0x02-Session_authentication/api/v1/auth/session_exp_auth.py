@@ -13,13 +13,11 @@ class SessionExpAuth(SessionAuth):
     def __init__(self) ->:
         """ constructor method
         """
-        duration = environ.get("SESSION_DURATION")
+        self.session_duration = environ.get("SESSION_DURATION")
         try:
-            duration = int(duration)
+            self.session_duration = int(self.session_duration)
         except Exception:
-            duration = 0
-
-        self.session_duration = duration
+            self.session_duration = 0
 
     def create_session(self, user_id=None) -> str:
         """create wrapped around super().create_session method
