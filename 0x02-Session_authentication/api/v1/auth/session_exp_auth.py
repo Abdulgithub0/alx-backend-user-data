@@ -16,7 +16,7 @@ class SessionExpAuth(SessionAuth):
         duration = environ.get("SESSION_DURATION")
         try:
             duration = int(duration)
-        except exception:
+        except Exception:
             duration = 0
 
         self.session_duration = duration
