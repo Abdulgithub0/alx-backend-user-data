@@ -35,7 +35,6 @@ class DB:
         """
         if email_ and hashed_password_:
             user = User(email=email_, hashed_password=hashed_password_)
-            self._session
-            session = self.__session.add(user)
-            # self.__session.commit()
+            self._session.add(user)
+            self._session.commit()
             return user
