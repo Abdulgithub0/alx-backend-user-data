@@ -5,8 +5,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-
 from user import Base, User
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 
 
 class DB:
@@ -37,3 +38,28 @@ class DB:
         self._session.add(user)
         self._session.commit()
         return user
+
+    def find_user_by(self, **kwargs: dict) -> User:
+        """Takes in arbitrary keyword arguments and returns the first row found
+           in the users table as filtered by the method’s input arguments
+        """
+        result = None
+        try:
+            result = self._session.query(User).filter_by(**kwargs).first()
+        except TypeError:
+            raise InvalidRequestError
+        if result is None:
+            raise NoResultFound
+        return result
+
+    def update_user(self, user_id: str, **kwargs: dict) -> None:
+        """locate the user to update, then will update the user’s attribute.
+        """
+        result = self.find_user_by(id=user_id)
+        for k, v in kwargs.items():
+            if hasattr(result, k):
+                setattr(result, k, v)
+            else:
+                raise ValueError
+        self._session.commit()
+        return None
