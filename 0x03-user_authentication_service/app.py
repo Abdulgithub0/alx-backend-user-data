@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
-""" Flask app module
+""" Flask app api module
 """
 from flask import Flask, jsonify
 
+
 app = Flask(__name__)
 
-@app.get("/", strict_slashes=False)
+
+@app.route("/", strict_slashes=False)
 def get_handler():
-    """Handle / default get request
+    """GET /
+       Return:
+        - Json payload
     """
     return jsonify({"message": "Bienvenue"})
 
