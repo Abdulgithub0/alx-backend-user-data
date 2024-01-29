@@ -56,15 +56,14 @@ def login_manager():
 def logout_manager():
     """DELETE /sessions
        Return:
-        - Success: redirect to "/" route - 301
+        - Success: redirect to "/" route
         - Error: 403
     """
     session_id = request.cookies.get("session_id")
     if session_id:
        user = AUTH.get_user_from_session_id(session_id)
-       if user:
-           AUTH.destroy_session(user.id)
-           return redirect("/")
+        AUTH.destroy_session(user.id)
+        return redirect("/")
     abort(403)
 
 
