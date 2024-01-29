@@ -56,7 +56,7 @@ def login_manager():
 def logout_manager():
     """DELETE /sessions
        Return:
-        - Success: redirect to "/" route
+        - Success: redirect to "/" route - 302
         - Error: 403
     """
     session_id = request.cookies.get("session_id")
@@ -66,6 +66,37 @@ def logout_manager():
             AUTH.destroy_session(user.id)
             return redirect("/")
     abort(403)
+
+
+@app.route("/profile", strict_slashes=False)
+def profile_manager():
+    """ GET /profile
+        Return:
+            - Success: {"email": "<user email>"}
+           -  Error: 403
+    """
+    session_id = request.cookies.get("session_id")
+    if session_id:
+        user = AUTH.get_user_from_session_id(session_id)
+        if user:
+            return jsonify({"email": user.email})
+    abort(403)
+
+
+@app.route("/reset_password", methods=["POST"], strict_slashes=False)
+def reset_password_token():
+    """POST /reset_password
+       Return:
+        - Success: {"email": "<user email>", "reset_token": "<reset token>"}
+        - Error: 403
+    """
+    email = request.form.get("email")
+    token = None
+    try:
+        token = AUTH.reset_password_token(email)
+    except ValueError:
+        abort(403)
+    return jsonify({"email": email, "reset_token": token})
 
 
 if __name__ == "__main__":

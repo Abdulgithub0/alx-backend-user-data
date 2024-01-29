@@ -80,3 +80,14 @@ class Auth:
             except Exception:
                 pass
         return None
+
+    def get_reset_password_token(self, email: str) -> str:
+        """ generate token
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+            token = _generate_token()
+            self._db.update_user(user.id, reset_token=token)
+            return token
+        except (NoResultFound, InvalidRequestError):
+            raise ValueError
