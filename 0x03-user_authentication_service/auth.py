@@ -3,13 +3,19 @@
 """
 import bcrypt as b
 from sqlalchemy.orm.exc import NoResultFound
-from db import DB, User
-
+from db import DB, User, InvalidRequestError
+from uuid import uuid4
 
 def _hash_password(password: str) -> bytes:
     """salt and hash a password
     """
     return b.hashpw(password.encode("utf-8"), b.gensalt())
+
+
+def _generate_uuid() -> str:
+    """generate uuid4
+    """
+    return str(uuid4())
 
 
 class Auth:
@@ -35,6 +41,18 @@ class Auth:
             fs = self._db.find_user_by(email=email)
             if fs:
                 return b.checkpw(password.encode("utf-8"), fs.hashed_password)
-        except (ValueError, NoResultFound):
+        except (InvalidRequestError, NoResultFound):
             pass
         return False
+
+    def create_session(self, email: str) -> str:
+        """Generate a session_id for a user if found on DB
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+            if user:
+                new_session_id = _generate_uuid()
+                self._db.update_user(user.id, session_id=new_session_id)
+                return new_session_id
+        except (ValueError, InvalidRequestError, NoResultFound):
+            return None
