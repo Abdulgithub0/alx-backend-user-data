@@ -6,6 +6,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from db import DB, User, InvalidRequestError
 from uuid import uuid4
 
+
 def _hash_password(password: str) -> bytes:
     """salt and hash a password
     """
