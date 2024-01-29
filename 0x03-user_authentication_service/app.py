@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ Flask app api module
 """
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
 
 
@@ -50,6 +50,22 @@ def login_manager():
             response.set_cookie("session_id", session_id)
             return response
     abort(401)
+
+
+@app.route("/sessions", methods=["DELETE"], strict_slashes=False)
+def logout_manager():
+    """DELETE /sessions
+       Return:
+        - Success: redirect to "/" route - 301
+        - Error: 403
+    """
+    session_id = request.cookies.get("session_id")
+    if session_id:
+       user = AUTH.get_user_from_session_id(session_id)
+       if user:
+           AUTH.destroy_session(user.id)
+           return redirect("/")
+    abort(403)
 
 
 if __name__ == "__main__":
