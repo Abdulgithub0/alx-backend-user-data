@@ -86,7 +86,7 @@ class Auth:
         """
         try:
             user = self._db.find_user_by(email=email)
-            token = _generate_token()
+            token = str(_generate_token())
             self._db.update_user(user.id, reset_token=token)
             return token
         except (NoResultFound, InvalidRequestError):
