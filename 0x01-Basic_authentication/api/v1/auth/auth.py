@@ -11,12 +11,13 @@ class Auth:
     """
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """Define which routes don't need authentication"""
-        real = True
         if path and excluded_paths:
-            if path[-1] != "/":
-                path = path + "/"
-            real = path not in excluded_paths
-        return real
+            for i in excluded_paths:
+                if i.endswith('*') and path.startswith(i[:-1]):
+                    return False
+                elif i in {path, path + '/'}:
+                    return False
+        return True
 
     def authorization_header(self, request: TypeVar('request') = None) -> str:
         """validate all requests to secure the API"""
